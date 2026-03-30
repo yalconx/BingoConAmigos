@@ -245,3 +245,82 @@
   color: var(--gold);
   font-weight: 700;
 }
+
+/* ── Name screen ── */
+.nameScreen {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0a0a1e 0%, var(--bg) 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.nameCard {
+  background: var(--bg3);
+  border: 1.5px solid rgba(245,200,66,0.25);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 0 60px rgba(245,200,66,0.08);
+  animation: slide-up 0.4s ease both;
+}
+
+.nameEmoji { font-size: 3rem; }
+
+.nameTitle {
+  font-family: 'Baloo 2', cursive;
+  font-size: 2rem;
+  color: var(--gold);
+  margin: 0;
+}
+
+.nameDesc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.5;
+}
+.nameDesc strong { color: var(--gold); letter-spacing: 0.1em; }
+
+.nameInputBig {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.2s;
+  margin-top: 0.25rem;
+}
+.nameInputBig:focus { border-color: var(--gold); }
+.nameInputBig::placeholder { color: #444; font-weight: 400; }
+
+.nameError {
+  color: var(--red);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.joinBtn {
+  width: 100%;
+  background: linear-gradient(135deg, #c99e20, var(--gold));
+  color: #1a1a1a;
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border-radius: 50px;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 4px 20px rgba(245,200,66,0.35);
+  margin-top: 0.25rem;
+}

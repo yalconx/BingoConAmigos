@@ -10,7 +10,6 @@ import Link from "next/link";
 export default function Landing() {
   const router = useRouter();
   const [joinCode, setJoinCode] = useState("");
-  const [playerName, setPlayerName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [hostName, setHostName] = useState("");
@@ -34,7 +33,6 @@ export default function Landing() {
 
   const joinRoom = async () => {
     const code = joinCode.trim().toUpperCase();
-    if (!playerName.trim()) { setError("Pon tu nombre antes de entrar"); return; }
     if (code.length < 2) { setError("Introduce el código de sala"); return; }
     setLoading(true);
     setError("");
@@ -44,7 +42,7 @@ export default function Landing() {
       setLoading(false);
       return;
     }
-    router.push(`/player?room=${code}&name=${encodeURIComponent(playerName.trim())}`);
+    router.push(`/player?room=${code}`);
   };
 
   return (
@@ -97,14 +95,7 @@ export default function Landing() {
           <div className={styles.card}>
             <div className={styles.cardEmoji}>🎴</div>
             <h2 className={styles.cardTitle}>Unirme a una partida</h2>
-            <p className={styles.cardDesc}>Introduce tu nombre y el código que te ha dado el organizador</p>
-            <input
-              className={styles.nameInput}
-              placeholder="Tu nombre"
-              maxLength={20}
-              value={playerName}
-              onChange={e => { setPlayerName(e.target.value); setError(""); }}
-            />
+            <p className={styles.cardDesc}>Introduce el código que te ha dado el organizador</p>
             <input
               className={styles.codeInput}
               placeholder="XXXX"
