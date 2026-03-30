@@ -216,3 +216,23 @@
   .ball { width: 100px; height: 100px; font-size: 2.4rem; }
   .roomCode { font-size: 1.2rem; }
 }
+
+.playersBar {
+  display: flex; flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem 1.5rem;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+}
+.playersCount {
+  font-size: 0.85rem; color: #7deca0; font-weight: 700;
+}
+.playersList {
+  display: flex; flex-wrap: wrap; gap: 0.3rem;
+}
+.playerChip {
+  background: rgba(46,204,113,0.12);
+  border: 1px solid rgba(46,204,113,0.25);
+  border-radius: 20px; padding: 0.15rem 0.65rem;
+  font-size: 0.8rem; color: #7deca0;
+}

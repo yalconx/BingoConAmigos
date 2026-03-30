@@ -163,3 +163,119 @@
   .cards { flex-direction: column; align-items: center; }
   .card { width: 100%; max-width: 340px; }
 }
+
+.nameInput {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-top: 0.25rem;
+}
+.nameInput:focus { border-color: var(--gold); }
+.nameInput::placeholder { color: #555; }
+
+.footerLink {
+  color: #555;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footerLink:hover { color: var(--gold); }
+
+/* SEO Section */
+.seoSection {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.seoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.seoBlock {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+
+.seoIcon { font-size: 2rem; }
+
+.seoTitle {
+  font-size: 1.1rem;
+  color: var(--gold);
+  font-family: 'Baloo 2', cursive;
+}
+
+.seoText {
+  font-size: 0.88rem;
+  color: #999;
+  line-height: 1.65;
+}
+
+.seoFaq {
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+
+.seoFaqTitle {
+  font-size: 1.3rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+  font-family: 'Baloo 2', cursive;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.faq {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem 1.2rem;
+  cursor: pointer;
+}
+
+.faqQ {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  list-style: none;
+  cursor: pointer;
+}
+.faqQ::-webkit-details-marker { display: none; }
+.faqQ::before { content: "▶ "; font-size: 0.7rem; color: var(--gold); }
+details[open] .faqQ::before { content: "▼ "; }
+
+.faqA {
+  font-size: 0.88rem;
+  color: #999;
+  line-height: 1.65;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 860px) {
+  .seoGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .seoGrid { grid-template-columns: 1fr; }
+}

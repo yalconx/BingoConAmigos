@@ -1,0 +1,77 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 3rem 1.5rem;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.back {
+  display: inline-block;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+}
+.back:hover { color: var(--gold); }
+
+.title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 2rem;
+  color: var(--gold);
+  margin-bottom: 0.25rem;
+}
+
+.updated {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.section {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.section h2 {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.section p {
+  font-size: 0.92rem;
+  color: #999;
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}
+
+.section ul {
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.section li {
+  font-size: 0.9rem;
+  color: #999;
+  line-height: 1.6;
+}
+
+.section a {
+  color: var(--gold);
+  text-decoration: none;
+}
+.section a:hover { text-decoration: underline; }

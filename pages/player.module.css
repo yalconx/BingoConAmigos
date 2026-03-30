@@ -231,3 +231,17 @@
 @media (max-width: 400px) {
   .cell { border-radius: 5px; font-size: 0.6rem; }
 }
+
+.playersBar {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.82rem;
+  color: #7deca0;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+}
+.playersBar strong { color: #fff; }
+
+.playerName {
+  color: var(--gold);
+  font-weight: 700;
+}
