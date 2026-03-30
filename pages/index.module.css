@@ -1,0 +1,173 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+  gap: 3rem;
+}
+
+.bgStars {
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 75%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 80%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 30%, rgba(255,255,255,0.4) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.bgGlow {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 40%, rgba(245,200,66,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 60%, rgba(46,204,113,0.06) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: slide-up 0.6s ease both;
+}
+
+.ballRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.heroBall {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff8dc, var(--gold) 50%, var(--gold-dim));
+  color: #1a1a1a;
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.9rem;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 24px rgba(245,200,66,0.45), inset 0 -3px 6px rgba(0,0,0,0.2);
+  animation: float 2s ease-in-out infinite;
+}
+
+.tagline {
+  font-size: 1rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.cards {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: slide-up 0.7s 0.1s ease both;
+}
+
+.card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1rem;
+  width: 300px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  border-color: rgba(255,255,255,0.15);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+.cardEmoji { font-size: 3.5rem; }
+
+.cardTitle {
+  font-size: 1.6rem;
+  color: var(--gold);
+}
+
+.cardDesc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.btn {
+  border-radius: 50px;
+  padding: 0.7rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.btnGreen {
+  background: linear-gradient(135deg, #1a8a4a, #2ECC71);
+  box-shadow: 0 4px 20px rgba(46,204,113,0.35);
+}
+
+.btnGold {
+  background: linear-gradient(135deg, #c99e20, #F5C842);
+  color: #1a1a1a;
+  box-shadow: 0 4px 20px rgba(245,200,66,0.35);
+}
+
+.codeRow {
+  display: flex; gap: 0.5rem; width: 100%;
+}
+
+.codeInput {
+  flex: 1;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.2em;
+  padding: 0.5rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.codeInput:focus {
+  border-color: var(--gold);
+}
+
+.codeInput::placeholder {
+  color: #444;
+  letter-spacing: 0.1em;
+}
+
+.error {
+  color: var(--red);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.footer {
+  font-size: 0.78rem;
+  color: #444;
+  text-align: center;
+  animation: slide-up 0.8s 0.2s ease both;
+}
+
+@media (max-width: 680px) {
+  .heroBall { width: 56px; height: 56px; font-size: 1.5rem; }
+  .cards { flex-direction: column; align-items: center; }
+  .card { width: 100%; max-width: 340px; }
+}
