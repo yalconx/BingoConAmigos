@@ -60,31 +60,29 @@ export default function Landing() {
         {/* BOMBO */}
         <div className={styles.card}>
           <div className={styles.cardEmoji}>🎱</div>
-          <h2 className={styles.cardTitle}>Soy el Bombo</h2>
+          <h2 className={styles.cardTitle}>Crear nueva partida</h2>
           <p className={styles.cardDesc}>Crea una sala, comparte el código y empieza a cantar números</p>
           <button className={`${styles.btn} ${styles.btnGreen}`} onClick={createRoom} disabled={loading}>
-            {loading ? "Creando sala…" : "Crear sala nueva"}
+            {loading ? "Creando sala…" : "Crear nueva partida"}
           </button>
         </div>
 
         {/* JUGADOR */}
         <div className={styles.card}>
           <div className={styles.cardEmoji}>🎴</div>
-          <h2 className={styles.cardTitle}>Soy Jugador</h2>
-          <p className={styles.cardDesc}>Introduce el código que te ha dado el bombo para entrar a la partida</p>
-          <div className={styles.codeRow}>
-            <input
-              className={styles.codeInput}
-              placeholder="XXXX"
-              maxLength={4}
-              value={joinCode}
-              onChange={e => { setJoinCode(e.target.value.toUpperCase()); setError(""); }}
-              onKeyDown={e => e.key === "Enter" && joinRoom()}
-            />
-            <button className={`${styles.btn} ${styles.btnGold}`} onClick={joinRoom} disabled={loading}>
-              Entrar
-            </button>
-          </div>
+          <h2 className={styles.cardTitle}>Unirme a una partida</h2>
+          <p className={styles.cardDesc}>Introduce el código que te ha dado el bombo para entrar</p>
+          <input
+            className={styles.codeInput}
+            placeholder="XXXX"
+            maxLength={4}
+            value={joinCode}
+            onChange={e => { setJoinCode(e.target.value.toUpperCase()); setError(""); }}
+            onKeyDown={e => e.key === "Enter" && joinRoom()}
+          />
+          <button className={`${styles.btn} ${styles.btnGold}`} onClick={joinRoom} disabled={loading}>
+            {loading ? "Entrando…" : "Unirme a la partida"}
+          </button>
           {error && <p className={styles.error}>{error}</p>}
         </div>
       </main>

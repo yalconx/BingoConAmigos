@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, update } from "firebase/database";
 import { db } from "../lib/firebase";
 import { generateCard, checkLine, checkBingo } from "../lib/bingo";
 import styles from "./player.module.css";
@@ -9,7 +9,7 @@ export default function Player() {
   const router = useRouter();
   const { room } = router.query;
 
-  // Generate unique card per session (stored in sessionStorage so it survives re-renders)
+  // Generate unique card per session
   const cardRef = useRef(null);
   if (!cardRef.current && typeof window !== "undefined") {
     const key = `bingo_card_${room}`;
@@ -27,11 +27,39 @@ export default function Player() {
 
   const [gameState, setGameState] = useState(null);
   const [marked, setMarked] = useState(new Set());
+  const [autoMark, setAutoMark] = useState(false);
   const [lineRow, setLineRow] = useState(-1);
   const [hasBingo, setHasBingo] = useState(false);
   const [toast, setToast] = useState(null);
   const [newNumbers, setNewNumbers] = useState(new Set());
   const prevCalledRef = useRef([]);
+  const lineRowRef = useRef(-1);
+  const hasBingoRef = useRef(false);
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3500);
+  };
+
+  const checkAndNotify = (nextMarked, newCalled) => {
+    // Check line
+    const lr = checkLine(card, nextMarked);
+    if (lr !== -1 && lineRowRef.current === -1) {
+      lineRowRef.current = lr;
+      setLineRow(lr);
+      showToast("🎉 ¡LÍNEA!");
+      // Notify bombo
+      if (room) update(ref(db, `rooms/${room}`), { playerLine: true });
+    }
+    // Check bingo
+    if (checkBingo(card, nextMarked) && !hasBingoRef.current) {
+      hasBingoRef.current = true;
+      setHasBingo(true);
+      showToast("🏆 ¡¡BINGO!!");
+      // Notify bombo
+      if (room) update(ref(db, `rooms/${room}`), { playerBingo: true });
+    }
+  };
 
   useEffect(() => {
     if (!room) return;
@@ -39,38 +67,55 @@ export default function Player() {
       if (snap.exists()) {
         const state = snap.val();
         setGameState(state);
-        // Detect newly called numbers for highlight animation
+
         const prev = new Set(prevCalledRef.current);
         const curr = state.called || [];
         const fresh = curr.filter(n => !prev.has(n));
+
         if (fresh.length > 0) {
           setNewNumbers(new Set(fresh));
           setTimeout(() => setNewNumbers(new Set()), 1200);
+
+          // Auto-mark mode: mark fresh numbers that are on the card
+          if (autoMark) {
+            setMarked(prevMarked => {
+              const next = new Set(prevMarked);
+              const allCardNums = card.flat().filter(n => n !== null);
+              fresh.forEach(n => { if (allCardNums.includes(n)) next.add(n); });
+              checkAndNotify(next, curr);
+              return next;
+            });
+          }
         }
         prevCalledRef.current = curr;
       }
     });
     return () => unsub();
-  }, [room]);
+  }, [room, autoMark]);
+
+  // When autoMark toggled ON, mark all already-called numbers on card
+  useEffect(() => {
+    if (!autoMark || !gameState) return;
+    const called = gameState.called || [];
+    const allCardNums = card.flat().filter(n => n !== null);
+    setMarked(prev => {
+      const next = new Set(prev);
+      called.forEach(n => { if (allCardNums.includes(n)) next.add(n); });
+      checkAndNotify(next, called);
+      return next;
+    });
+  }, [autoMark]);
 
   const toggleMark = (num) => {
+    if (autoMark) return; // in auto mode, manual toggle disabled
     const called = gameState?.called || [];
     if (!called.includes(num)) return;
     setMarked(prev => {
       const next = new Set(prev);
       if (next.has(num)) { next.delete(num); } else { next.add(num); }
-      // Check line
-      const lr = checkLine(card, next);
-      if (lr !== -1 && lineRow === -1) { setLineRow(lr); showToast("🎉 ¡LÍNEA!"); }
-      // Check bingo
-      if (checkBingo(card, next) && !hasBingo) { setHasBingo(true); showToast("🏆 ¡¡BINGO!!"); }
+      checkAndNotify(next, called);
       return next;
     });
-  };
-
-  const showToast = (msg) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 3500);
   };
 
   const called = gameState?.called || [];
@@ -82,7 +127,6 @@ export default function Player() {
     <div className={styles.page}>
       {toast && <div className={styles.toast}>{toast}</div>}
 
-      {/* Header */}
       <header className={styles.header}>
         <button className={styles.backBtn} onClick={() => router.push("/")}>← Salir</button>
         <div className={styles.roomChip}>Sala <strong>{room}</strong></div>
@@ -97,17 +141,39 @@ export default function Player() {
             <div className={styles.lastNum}>{lastNum}</div>
           </>
         ) : (
-          <div className={styles.waiting}>⏳ Esperando que el bombo empiece…</div>
+          <div className={styles.waiting}>⏳ Esperando que empiece la partida…</div>
         )}
       </div>
 
-      {/* Announcements */}
+      {/* Announcements from bombo */}
       {gameState?.lineAnnounced && !gameState?.bingoAnnounced && (
         <div className={styles.announceBanner}>🎉 ¡Se ha cantado LÍNEA! ¿Seguimos?</div>
       )}
       {gameState?.bingoAnnounced && (
         <div className={`${styles.announceBanner} ${styles.bingoBanner}`}>🏆 ¡¡BINGO!! ¡La partida ha terminado!</div>
       )}
+
+      {/* Auto/Manual toggle */}
+      <div className={styles.modeToggleWrap}>
+        <span className={styles.modeLabel}>Marcar números:</span>
+        <div className={styles.modeToggle}>
+          <button
+            className={`${styles.modeBtn} ${!autoMark ? styles.modeBtnActive : ""}`}
+            onClick={() => setAutoMark(false)}
+          >
+            ✋ Manual
+          </button>
+          <button
+            className={`${styles.modeBtn} ${autoMark ? styles.modeBtnActive : ""}`}
+            onClick={() => setAutoMark(true)}
+          >
+            ⚡ Automático
+          </button>
+        </div>
+        <p className={styles.modeHint}>
+          {autoMark ? "Los números de tu cartón se marcan solos al salir" : "Toca los números para marcarlos tú"}
+        </p>
+      </div>
 
       {/* Card */}
       <div className={styles.cardWrap}>
@@ -126,6 +192,7 @@ export default function Player() {
                       ${isCalled ? styles.cellCalled : ""}
                       ${isMarked ? styles.cellMarked : ""}
                       ${isNew ? styles.cellNew : ""}
+                      ${autoMark ? styles.cellAuto : ""}
                     `}
                     onClick={() => toggleMark(num)}
                   >
@@ -139,13 +206,9 @@ export default function Player() {
         </div>
       </div>
 
-      {/* Achievements */}
       {hasBingo && <div className={`${styles.achievement} ${styles.achievementBingo}`}>🏆 ¡BINGO COMPLETO! ¡Enhorabuena!</div>}
-      {lineRow !== -1 && !hasBingo && <div className={styles.achievement}>🎉 ¡Tienes línea! Sigue marcando para el Bingo</div>}
+      {lineRow !== -1 && !hasBingo && <div className={styles.achievement}>🎉 ¡Tienes línea! Sigue para el Bingo</div>}
 
-      <p className={styles.hint}>Toca un número llamado para marcarlo</p>
-
-      {/* Called list */}
       <section className={styles.historySection}>
         <div className={styles.historyTitle}>Números cantados ({called.length})</div>
         <div className={styles.pills}>

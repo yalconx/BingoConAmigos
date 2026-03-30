@@ -52,14 +52,66 @@
   border-radius: 10px; padding: 0.4rem 0.8rem;
 }
 
-.shareBanner {
-  background: rgba(245,200,66,0.08);
-  border-bottom: 1px solid rgba(245,200,66,0.2);
-  padding: 0.7rem 1.5rem;
-  font-size: 0.9rem; color: #ccc;
-  text-align: center;
+.shareSection {
+  padding: 1rem 1.5rem;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 0.6rem;
 }
-.shareBanner strong { color: var(--gold); font-size: 1.1rem; letter-spacing: 0.1em; }
+.shareLabel {
+  font-size: 0.8rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.shareBtns {
+  display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center;
+}
+.waBtn {
+  background: #25D366;
+  color: #fff;
+  border-radius: 20px; padding: 0.5rem 1.2rem;
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.95rem; font-weight: 700;
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+}
+.copyBtn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 0.5rem 1.2rem;
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--text);
+}
+.codeDisplay {
+  font-size: 0.85rem; color: #888;
+}
+.codeDisplay strong {
+  color: var(--gold);
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.1rem; letter-spacing: 0.15em;
+}
+
+.playerAlert {
+  background: rgba(46,204,113,0.12);
+  border-top: 2px solid rgba(46,204,113,0.4);
+  border-bottom: 2px solid rgba(46,204,113,0.4);
+  color: #7deca0;
+  text-align: center;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem; font-weight: 700;
+  animation: pop 0.4s ease both;
+}
+.playerAlertBingo {
+  background: rgba(245,200,66,0.12);
+  border-color: rgba(245,200,66,0.5);
+  color: var(--gold);
+  font-size: 1.1rem;
+}
+
+.shareBanner {
+  display: none;
+}
 
 .stage {
   display: flex; flex-direction: column;
